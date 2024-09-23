@@ -8,7 +8,7 @@ public class GitTester {
         System.out.println (blob.toSHA1());
         Blob blob2 = new Blob ("test3.txt");
         System.out.println (blob2.toSHA1());
-        //git.deleteGit();
+        // git.deleteGit();
         //can comment out above code to make it delete files or not
     }
 

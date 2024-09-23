@@ -93,8 +93,8 @@ public class Blob {
         return zip;
     }
 
-    public String compress() {
-        byte[] input; // https://docs.oracle.com/javase/8/docs/api/java/util/zip/Deflater.html
+    public String compress() { //inspiration from https://docs.oracle.com/javase/8/docs/api/java/util/zip/Deflater.html
+        byte[] input; 
         byte[] output = new byte[1000];
         try {
             // Encode a String into bytes
@@ -104,41 +104,14 @@ public class Blob {
             Deflater compresser = new Deflater();
             compresser.setInput(input);
             compresser.finish();
-            //System.out.println (compresser.finished()); //for testing
-            int compressedDataLength = compresser.deflate(output); //not used but may be necessary?
+            System.out.println (compresser.finished()); //for testing FIX FIX FIX FIX FIX IT OUTPUTS FALSE???
+            System.out.println (compresser.deflate(output)); //outputs compressed data length (for testing)
             compresser.end();
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
 
         return new String(output);
-
-        // bad code:
-        // zip fileContent
-        // inspiration:
-        // https://stackoverflow.com/questions/63885313/is-there-a-way-to-zip-a-plain-text-file-from-a-string-in-java
-        // String zippedContent = "";
-        // try {
-        // ZipOutputStream zipped = new ZipOutputStream(new
-        // FileOutputStream(fileContent));
-        // zippedContent = zipped.toString();
-        // zipped.close();
-        // } catch (Exception e) {
-        // e.printStackTrace();
-        // }
-        // return zippedContent;
-
-        /*
-         * StringBuilder sb = new StringBuilder(fileContent);
-         * File f = new File("c:\\payload.zip");
-         * ZipOutputStream out = new ZipOutputStream(new FileOutputStream(f));
-         * ZipEntry e = new ZipEntry("myFile.txt");
-         * out.putNextEntry(e);
-         * byte[] data = sb.toString().getBytes();
-         * out.write(data, 0, data.length);
-         * out.closeEntry();
-         * out.close();
-         */
     }
 
 }
