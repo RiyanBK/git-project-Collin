@@ -10,6 +10,8 @@ public class GitTester {
         System.out.println (blob2.toSHA1());
         // git.deleteGit();
         //can comment out above code to make it delete files or not
+
+        //I COULDNT FIGURE OUT HOW TO TEST ZIPPED CONTENT AND I WAS SO BUSY SO IT MAY NOT ACTUALLY WORK
     }
 
 }

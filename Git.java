@@ -5,7 +5,7 @@ public class Git {
     File objectsFolder;
     File indexFile;
 
-    public Git() {
+    public Git() { //creates repository
         gitFolder = new File("git/");
         objectsFolder = new File("git/objects/");
         indexFile = new File("git/index/");
@@ -29,7 +29,7 @@ public class Git {
 
     }
 
-    public boolean deleteGit() {
+    public boolean deleteGit() { //this is the method u call when u want to delete the git repo for testing
         File git = new File("git/");
         if (git.exists()) {
             deleteFolder(git);
@@ -41,7 +41,7 @@ public class Git {
             return false;
     }
 
-    public void deleteFolder(File folder) {
+    public void deleteFolder(File folder) { //this is the called method that actually deletes stuff
         if (!folder.exists()){
             return;
         }
@@ -53,4 +53,5 @@ public class Git {
             file.delete();
         }
     }
+
 }

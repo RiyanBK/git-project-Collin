@@ -1,4 +1,8 @@
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.security.*;
 import java.util.zip.*;
@@ -8,7 +12,7 @@ public class Blob {
     private String hashedFileContent;
     private File forObjectsFolder;
     private String fileContent;
-    public static boolean zip = true; // by default it zips the data
+    public static boolean zip = false; // by default it doesn't zip the data
 
     public Blob(String fileName) {
         file = fileName;
@@ -35,12 +39,14 @@ public class Blob {
         }
     }
 
-    public String toSHA1() { // mostly from stack overflow:
-                             // https://stackoverflow.com/questions/4895523/java-string-to-sha1
-        if (zip) { // compress the string (this is pseudocode for now bc havent written it yet)
-            fileContent = compress();
+    public String toSHA1() { 
+        if (zip) {
+            compress(); //compresses fileContent so compressed file content is hashed
         }
-
+        byte[] b = fileContent.getBytes(StandardCharsets.UTF_8);
+        fileContent = b.toString();
+        // mostly from stack overflow:
+        // https://stackoverflow.com/questions/4895523/java-string-to-sha1
         String sha1 = "";
         try {
             MessageDigest encrypter = MessageDigest.getInstance("SHA-1");
@@ -82,10 +88,10 @@ public class Blob {
     public static boolean toggleZip() {
         if (zip) {
             zip = false;
-            return false;
+            return zip;
         } else {
             zip = true;
-            return true;
+            return zip;
         }
     }
 
@@ -93,25 +99,22 @@ public class Blob {
         return zip;
     }
 
-    public String compress() { //inspiration from https://docs.oracle.com/javase/8/docs/api/java/util/zip/Deflater.html
-        byte[] input; 
-        byte[] output = new byte[1000];
+    public void compress() {
         try {
-            // Encode a String into bytes
-            input = fileContent.getBytes("UTF-8");
-
-            // Compress the bytes
-            Deflater compresser = new Deflater();
-            compresser.setInput(input);
-            compresser.finish();
-            System.out.println (compresser.finished()); //for testing FIX FIX FIX FIX FIX IT OUTPUTS FALSE???
-            System.out.println (compresser.deflate(output)); //outputs compressed data length (for testing)
-            compresser.end();
-        } catch (UnsupportedEncodingException e) {
+            File compressed = File.createTempFile("compressedFile", null);
+            FileInputStream in = new FileInputStream(file);
+            DeflaterOutputStream out = new DeflaterOutputStream(new FileOutputStream(compressed));
+            int data = in.read();
+            while (data != -1) {
+                out.write(data);
+                data = in.read();
+            }
+            in.close();
+            out.close();
+            fileContent = getFileContent("" + compressed);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return new String(output);
     }
 
 }
