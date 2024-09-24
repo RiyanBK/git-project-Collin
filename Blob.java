@@ -12,7 +12,7 @@ public class Blob {
     private String hashedFileContent;
     private File forObjectsFolder;
     private String fileContent;
-    public static boolean zip = false; // by default it doesn't zip the data
+    public static boolean zip = true; // by default it zips the data
 
     public Blob(String fileName) {
         file = fileName;
@@ -117,7 +117,7 @@ public class Blob {
             e.printStackTrace();
         }
         String str = new String (output);
-        //System.out.println (str); //for testing
+        System.out.println (str); //for testing
         return str;
     }
 
