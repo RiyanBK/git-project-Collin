@@ -99,22 +99,26 @@ public class Blob {
         return zip;
     }
 
-    public void compress() {
+    public String compress() { //inspiration from https://docs.oracle.com/javase/8/docs/api/java/util/zip/Deflater.html
+        
+        byte[] input;
+        byte[] output = new byte[1000];
         try {
-            File compressed = File.createTempFile("compressedFile", null);
-            FileInputStream in = new FileInputStream(file);
-            DeflaterOutputStream out = new DeflaterOutputStream(new FileOutputStream(compressed));
-            int data = in.read();
-            while (data != -1) {
-                out.write(data);
-                data = in.read();
-            }
-            in.close();
-            out.close();
-            fileContent = getFileContent("" + compressed);
+            // Encodes String into bytes
+            input = fileContent.getBytes("UTF-8");
+
+            // Compress the bytes
+            Deflater compresser = new Deflater();
+            compresser.setInput(input);
+            compresser.finish();
+            System.out.println (compresser.deflate(output)); //outputs compressed data length (for testing)
+            compresser.end();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        String str = new String (output);
+        //System.out.println (str); //for testing
+        return str;
     }
 
 }
