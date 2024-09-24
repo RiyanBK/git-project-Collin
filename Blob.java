@@ -12,7 +12,7 @@ public class Blob {
     private String hashedFileContent;
     private File forObjectsFolder;
     private String fileContent;
-    public static boolean zip = true; // by default it zips the data
+    public static boolean zip = false; // by default it doesn't zip the data
 
     public Blob(String fileName) {
         file = fileName;
@@ -105,19 +105,19 @@ public class Blob {
         byte[] output = new byte[1000];
         try {
             // Encodes String into bytes
-            input = fileContent.getBytes("UTF-8");
-
+            input = fileContent.getBytes(StandardCharsets.UTF_8);
+            System.out.println (new String (input)); //for testing
             // Compress the bytes
             Deflater compresser = new Deflater();
             compresser.setInput(input);
             compresser.finish();
-            System.out.println (compresser.deflate(output)); //outputs compressed data length (for testing)
+            //System.out.println (compresser.deflate(output)); //outputs compressed data length (for testing)
             compresser.end();
         } catch (Exception e) {
             e.printStackTrace();
         }
         String str = new String (output);
-        System.out.println (str); //for testing
+        //System.out.println (str); //for testing
         return str;
     }
 
