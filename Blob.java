@@ -94,24 +94,25 @@ public class Blob {
     }
 
     public String compress() { //inspiration from https://docs.oracle.com/javase/8/docs/api/java/util/zip/Deflater.html
-        byte[] input; 
+        
+        byte[] input;
         byte[] output = new byte[1000];
         try {
-            // Encode a String into bytes
+            // Encodes String into bytes
             input = fileContent.getBytes("UTF-8");
 
             // Compress the bytes
             Deflater compresser = new Deflater();
             compresser.setInput(input);
             compresser.finish();
-            System.out.println (compresser.finished()); //for testing FIX FIX FIX FIX FIX IT OUTPUTS FALSE???
             System.out.println (compresser.deflate(output)); //outputs compressed data length (for testing)
             compresser.end();
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return new String(output);
+        String str = new String (output);
+        //System.out.println (str); //for testing
+        return str;
     }
 
 }
